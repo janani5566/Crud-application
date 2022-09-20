@@ -1,80 +1,119 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react'
 import {Button,Table} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Employees from "./Employees";
+import Employees from './Employees'
 import {Link,useNavigate} from 'react-router-dom'
 
-function Home () {
 
-    let history = useNavigate ();
+function Home() {
 
-     const handleEdit =(id, name,age) =>{
+
+    let history =useNavigate();
+
+
+    const handleEdit = (id,name,age,address,phoneno) => {
         localStorage.setItem('Name',name);
         localStorage.setItem('Age',age);
+        localStorage.setItem('Address',address);
+        localStorage.setItem('PhoneNo',phoneno);
         localStorage.setItem('Id',id);
-     }
+    }
+
+
+
     const handleDelete = (id) => {
         var index = Employees.map(function(e){
             return e.id
         }).indexOf(id);
+
+
         Employees.splice(index,1);
 
-        history('/')
+
+        history('./');
+
+
     }
-    return (
-        <Fragment>
-            <div style={{margin:"10rem"}}>
-               <Table striped bordered hover size="sm">
+
+
+  return (
+    <Fragment>
+        <div style={{margin:"10rem"}}>
+            <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>
-                            Name
-                        </th>
-                        <th>
+                           Name
+                         </th>
+                         <th>
                             Age
-                        </th>
-                        <th>
+                         </th>
+                         <th>
+                            Address
+                         </th>
+                         <th>
+                            PhoneNo
+                         </th>
+                         <th>
                             Actions
-                        </th>
+                         </th>
+
+
                     </tr>
                 </thead>
                 <tbody>
-                   {
-                    Employees && Employees.length > 0
-                    ?
-                    Employees.map((item)=>{
-                        return(
-                            <tr>
-                                <td>
-                                    {item.Name}
-                                </td>
-                                <td>
-                                    {item.Age}
-                                </td>
-                                <td>
-                                    <Link to ={'/edit'}>
-                                    <Button onClick={() => handleEdit (item.id,item.Name,item.Age)}>EDIT</Button>
-                                    </Link>
-                                     &nbsp;
-                                    <Button onClick={() => handleDelete(item.id)}>DELETE</Button>
-                                </td>
+                    {
+                        Employees && Employees.length > 0
+                        ?
+                        Employees.map((item) =>{
+                            return(
+                                <tr>
+                                    <td>
+                                        {item.Name}
+                                    </td>
+                                    <td>
+                                        {item.Age}
+                                    </td>
+                                    <td>
+                                        {item.Address}
+                                    </td>
+                                    <td>
+                                        {item.PhoneNo}
+                                    </td>
+                                    <td>
+                                      <Link to={'./edit'}>
+                                      <Button onClick={() => handleEdit(item.id,item.Name,item.Age,item.Address,item.PhoneNo) }>Edit</Button>
+                                      </Link>
+                                      &nbsp;
+                                      <Button onClick={() => handleDelete(item.id)}>DELETE</Button>
 
-                            </tr>
-                        )
-                    })
-                     :
-                     "No data available"
-                   }
+
+                                     </td>
+
+
+
+                                </tr>
+
+
+                            )
+                        })
+                        :
+                        "No data available"
+                    }
                 </tbody>
-               </Table>
-               <br>
-               </br>
-               <Link className='d-grid gap-2' to ="/create">
-                <Button size-="lg">Create</Button>
-               </Link>
-            </div>
-        </Fragment>
-    )
+
+
+            </Table>
+            <br>
+            </br>
+            <Link className='d-grid gap-2' to="/Create">
+            <Button size="lg" >Create</Button>
+            </Link>
+
+        </div>
+    </Fragment>
+  )
 }
+
 
 export default Home
